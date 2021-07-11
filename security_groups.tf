@@ -58,6 +58,44 @@ resource "aws_security_group" "elb-web-access" {
   }
 
   tags = {
-    "Name" = "allow-web"
+    "Name" = "alb-allow-web"
+  }
+}
+
+resource "aws_security_group" "ec2-elb-access" {
+  name        = "ec2-elb-access"
+  description = "Allow HTTP from elb-web-access Security Group"
+  vpc_id      = aws_vpc.vpc.id
+
+  ingress {
+    description      = "Allow HTTP from elb-web-access Security Group"
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    cidr_blocks      = null
+    ipv6_cidr_blocks = null
+    security_groups = [ aws_security_group.elb-web-access.id ]
+  }
+
+  ingress {
+    description      = "Allow HTTPS from elb-web-access Security Group"
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = null
+    ipv6_cidr_blocks = null
+    security_groups = [ aws_security_group.elb-web-access.id ]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  tags = {
+    "Name" = "ec2-allow-alb-web"
   }
 }
