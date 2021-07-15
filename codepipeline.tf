@@ -11,7 +11,7 @@ resource "aws_codepipeline" "codepipeline" {
         name = "Source"
 
         action {
-            name = "Source GitHub"
+            name = "Source"
             category = "Source"
             owner = "AWS"
             provider = "CodeStarSourceConnection"
@@ -38,11 +38,22 @@ resource "aws_codepipeline" "codepipeline" {
             input_artifacts = ["source_output"]
 
             configuration = {
-                ApplicationName = 
-                DeploymentGroupName =
+                ApplicationName = aws_codedeploy_app.webapp.name
+                DeploymentGroupName = aws_codedeploy_deployment_group.web.arn
             }
         }
     }
 
-    
+
+}
+
+resource "aws_codedeploy_app" "webapp" {
+    name = "WebApp"
+    compute_platform = "Server"
+}
+
+resource "aws_codedeploy_deployment_group" "web" {
+    app_name = aws_codedeploy_app.webapp.name
+    deployment_group_name = "web-asg"
+    service_role_arn = aws_iam_role.codedeploy.arn
 }

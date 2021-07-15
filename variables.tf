@@ -25,7 +25,7 @@ variable "hostname" {
 
 variable "codepipeline-bucket" {
   type = string
-  default = "codepipeline-eu-west-1-259369533692"
+  default = "hmckenzie-codepipeline"
 }
 
 variable "codestar-connection-arn" {
