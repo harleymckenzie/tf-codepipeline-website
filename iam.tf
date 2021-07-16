@@ -1,3 +1,5 @@
+# IAM Roles
+
 resource "aws_iam_role" "codepipeline" {
     name = "codepipeline-role"
     path = "/"
@@ -36,6 +38,27 @@ resource "aws_iam_role" "codedeploy" {
     })
     managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"]
 }
+
+resource "aws_iam_role" "web" {
+    name = "webapp-role"
+    path = "/"
+
+    assume_role_policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+            {
+                Action = "sts:AssumeRole"
+                Effect = "Allow"
+                Sid    = ""
+                Principal = {
+                    Service = "ec2.amazonaws.com"
+                }
+            },
+        ]
+    })
+}
+
+# IAM Policies
 
 resource "aws_iam_role_policy" "codepipeline" {
   name = "codepipeline-policy"
@@ -254,4 +277,56 @@ resource "aws_iam_role_policy" "codedeploy" {
     ]
 }
 EOF
+}
+
+resource "aws_iam_role_policy" "web-bucket" {
+  name = "webbucket-policy"
+  role = aws_iam_role.web.id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.web-bucket}/*"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "deploy-bucket" {
+  name = "webdeploybucket-policy"
+  role = aws_iam_role.web.id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.codepipeline-bucket}/*"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}
+EOF
+}
+
+# IAM Instance Profile
+resource "aws_iam_instance_profile" "web" {
+  name = "web-profile"
+  role = aws_iam_role.web.name
 }

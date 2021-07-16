@@ -1,8 +1,20 @@
 resource "aws_launch_template" "web" {
-    name = "web-launch-config"
+    name = "web-launch-template"
     image_id = var.web-ami
     instance_type = var.web-instance-type
-    vpc_security_group_ids = [ aws_security_group.ec2-elb-access.id ]
+    key_name = var.keypair
+    vpc_security_group_ids = [ 
+        aws_security_group.ec2-elb-access.id,
+        aws_security_group.ssh-access.id
+    ]
+
+    iam_instance_profile {
+        name = aws_iam_instance_profile.web.name
+    }
+
+    network_interfaces {
+        associate_public_ip_address = true
+    }
 
     tag_specifications {
         resource_type = "instance"
@@ -11,6 +23,7 @@ resource "aws_launch_template" "web" {
             Name = "hmckenzie-web"
         }
     }
+    user_data = base64encode(data.template_file.userdata.rendered)
 }
 
 resource "aws_autoscaling_group" "asg" {

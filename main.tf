@@ -19,3 +19,12 @@ provider "aws" {
     }
   }
 }
+
+data "aws_region" "current" {}
+
+data "template_file" "userdata" {
+  template = "${file("${path.module}/userdata.tpl")}"
+  vars = {
+    region = "${data.aws_region.current.name}"
+  }
+}

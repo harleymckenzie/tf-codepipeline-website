@@ -10,7 +10,7 @@ variable "web-instance-type" {
 
 variable "keypair" {
     type = string
-    default = "hmckenzie-ireland"
+    default = "hmckenzie-london"
 }
 
 variable "hosted-zone" {
@@ -26,6 +26,11 @@ variable "hostname" {
 variable "codepipeline-bucket" {
   type = string
   default = "hmckenzie-codepipeline"
+}
+
+variable "web-bucket" {
+  type = string
+  default = "hmckenzie-web-content"
 }
 
 variable "codestar-connection-arn" {
