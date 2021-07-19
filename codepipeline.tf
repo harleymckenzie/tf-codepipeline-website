@@ -2,6 +2,7 @@ resource "aws_codepipeline" "codepipeline" {
     name = "web-pipeline"
     role_arn = aws_iam_role.codepipeline.arn
 
+    depends_on = [aws_codedeploy_deployment_group.web]
     artifact_store {
         location = var.codepipeline-bucket
         type = "S3"
@@ -56,5 +57,5 @@ resource "aws_codedeploy_deployment_group" "web" {
     app_name = aws_codedeploy_app.webapp.name
     deployment_group_name = "web-asg"
     service_role_arn = aws_iam_role.codedeploy.arn
-    autoscaling_groups = [ aws_autoscaling_group.asg.name ]
+    autoscaling_groups = [aws_autoscaling_group.asg.name]
 }
