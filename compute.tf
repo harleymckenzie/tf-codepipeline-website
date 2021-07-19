@@ -3,10 +3,6 @@ resource "aws_launch_template" "web" {
     image_id = var.web-ami
     instance_type = var.web-instance-type
     key_name = var.keypair
-    vpc_security_group_ids = [ 
-        aws_security_group.ec2-elb-access.id,
-        aws_security_group.ssh-access.id
-    ]
 
     iam_instance_profile {
         name = aws_iam_instance_profile.web.name
@@ -14,6 +10,10 @@ resource "aws_launch_template" "web" {
 
     network_interfaces {
         associate_public_ip_address = true
+        security_groups = [ 
+            aws_security_group.ec2-elb-access.id,
+            aws_security_group.ssh-access.id
+        ]
     }
 
     tag_specifications {

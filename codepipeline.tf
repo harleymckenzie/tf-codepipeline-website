@@ -39,7 +39,7 @@ resource "aws_codepipeline" "codepipeline" {
 
             configuration = {
                 ApplicationName = aws_codedeploy_app.webapp.name
-                DeploymentGroupName = aws_codedeploy_deployment_group.web.arn
+                DeploymentGroupName = "web-asg"
             }
         }
     }
@@ -56,4 +56,5 @@ resource "aws_codedeploy_deployment_group" "web" {
     app_name = aws_codedeploy_app.webapp.name
     deployment_group_name = "web-asg"
     service_role_arn = aws_iam_role.codedeploy.arn
+    autoscaling_groups = [ aws_autoscaling_group.asg.name ]
 }
