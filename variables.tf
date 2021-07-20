@@ -13,11 +13,6 @@ variable "keypair" {
     default = "hmckenzie-london"
 }
 
-variable "hosted-zone" {
-  type    = string
-  default = "Z01046061A6KPBWZP6KFJ"
-}
-
 variable "hostname" {
   type    = string
   default = "hmckenzie.net"

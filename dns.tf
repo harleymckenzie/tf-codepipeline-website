@@ -4,7 +4,7 @@ data "aws_route53_zone" "web" {
 }
 
 resource "aws_route53_record" "hostname" {
-  zone_id = var.hosted-zone
+  zone_id = data.aws_route53_zone.web.id
   name = var.hostname
   type = "A"
 
