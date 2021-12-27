@@ -1,5 +1,5 @@
 resource "aws_codepipeline" "codepipeline" {
-    name = "web-pipeline"
+    name = "${var.name}-${var.env}-web-pipeline"
     role_arn = aws_iam_role.codepipeline.arn
 
     depends_on = [aws_codedeploy_deployment_group.web]
@@ -49,13 +49,13 @@ resource "aws_codepipeline" "codepipeline" {
 }
 
 resource "aws_codedeploy_app" "webapp" {
-    name = "WebApp"
+    name = "${var.name}-${var.env}-WebApp"
     compute_platform = "Server"
 }
 
 resource "aws_codedeploy_deployment_group" "web" {
     app_name = aws_codedeploy_app.webapp.name
-    deployment_group_name = "web-asg"
+    deployment_group_name = "${var.name}-${var.env}-web-asg"
     service_role_arn = aws_iam_role.codedeploy.arn
     autoscaling_groups = [aws_autoscaling_group.asg.name]
 }

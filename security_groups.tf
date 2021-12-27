@@ -1,5 +1,5 @@
 resource "aws_security_group" "ssh-access" {
-  name        = "ssh-access"
+  name        = "${var.name}-${var.env}-ssh-access"
   description = "Allow SSH from trusted IPs"
   vpc_id      = module.vpc-base.vpc_id
 
@@ -27,7 +27,7 @@ resource "aws_security_group" "ssh-access" {
 }
 
 resource "aws_security_group" "elb-web-access" {
-  name        = "elb-web-access"
+  name        = "${var.name}-${var.env}-elb-web-access"
   description = "Allow HTTP/HTTPS from everywhere"
   vpc_id      = module.vpc-base.vpc_id
 
@@ -63,7 +63,7 @@ resource "aws_security_group" "elb-web-access" {
 }
 
 resource "aws_security_group" "ec2-elb-access" {
-  name        = "ec2-elb-access"
+  name        = "${var.name}-${var.env}-ec2-elb-access"
   description = "Allow HTTP from elb-web-access Security Group"
   vpc_id      = module.vpc-base.vpc_id
 
@@ -96,6 +96,6 @@ resource "aws_security_group" "ec2-elb-access" {
   }
 
   tags = {
-    "Name" = "ec2-allow-alb-web"
+    "Name" = "${var.name}-${var.env}-ec2-allow-alb-web"
   }
 }

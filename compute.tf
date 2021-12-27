@@ -1,5 +1,5 @@
 resource "aws_launch_template" "web" {
-    name = "web-launch-template"
+    name = "${var.name}-${var.env}-web-launch-template"
     image_id = var.web-ami
     instance_type = var.web-instance-type
     key_name = var.keypair
@@ -18,16 +18,12 @@ resource "aws_launch_template" "web" {
 
     tag_specifications {
         resource_type = "instance"
-
-        tags = {
-            Name = "hmckenzie-web"
-        }
     }
     user_data = base64encode(data.template_file.userdata.rendered)
 }
 
 resource "aws_autoscaling_group" "asg" {
-    name = "web-asg"
+    name = "${var.name}-${var.env}-web-asg"
     min_size = 1
     max_size = 1
     target_group_arns = [ aws_lb_target_group.target-group.id ]
