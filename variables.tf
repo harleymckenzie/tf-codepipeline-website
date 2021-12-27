@@ -8,7 +8,12 @@ variable "web-instance-type" {
 }
 
 variable "keypair" {
-    type = string
+  type = string
+}
+
+variable "apex-domain" {
+  type  = string
+  default = ""
 }
 
 variable "hostname" {
