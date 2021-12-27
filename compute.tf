@@ -32,9 +32,9 @@ resource "aws_autoscaling_group" "asg" {
     max_size = 1
     target_group_arns = [ aws_lb_target_group.target-group.id ]
     vpc_zone_identifier = [
-        aws_subnet.public-a.id,
-        aws_subnet.public-b.id,
-        aws_subnet.public-c.id
+        module.vpc-base.subnet_public-a,
+        module.vpc-base.subnet_public-b,
+        module.vpc-base.subnet_public-c
     ]
 
     launch_template { 

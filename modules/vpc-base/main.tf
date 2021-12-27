@@ -21,7 +21,7 @@ resource "aws_subnet" "public-a" {
   availability_zone = "eu-west-1a"
 
   tags = {
-    Name = "public-a"
+    Name = "${var.name}-public-a"
   }
 }
 
@@ -31,7 +31,7 @@ resource "aws_subnet" "public-b" {
   availability_zone = "eu-west-1b"
 
   tags = {
-    Name = "public-b"
+    Name = "${var.name}-public-b"
   }
 }
 
@@ -41,7 +41,7 @@ resource "aws_subnet" "public-c" {
   availability_zone = "eu-west-1c"
 
   tags = {
-    Name = "public-c"
+    Name = "${var.name}-public-c"
   }
 }
 
@@ -51,7 +51,7 @@ resource "aws_subnet" "private-a" {
   availability_zone = "eu-west-1a"
 
   tags = {
-    Name = "private-a"
+    Name = "${var.name}-private-a"
   }
 }
 
@@ -61,7 +61,7 @@ resource "aws_subnet" "private-b" {
   availability_zone = "eu-west-1b"
 
   tags = {
-    Name = "private-b"
+    Name = "${var.name}-private-b"
   }
 }
 
@@ -71,7 +71,7 @@ resource "aws_subnet" "private-c" {
   availability_zone = "eu-west-1c"
 
   tags = {
-    Name = "private-c"
+    Name = "${var.name}-private-c"
   }
 }
 
@@ -88,7 +88,7 @@ resource "aws_route_table" "public-rt" {
   }
 
   tags = {
-    "Name" = "public-rt"
+    "Name" = "${var.name}-public-rt"
   }
 }
 
@@ -112,7 +112,7 @@ resource "aws_route_table_association" "public-c" {
 ########################################################
 
 resource "aws_ec2_managed_prefix_list" "prefix-list" {
-  name           = "prefix-list"
+  name           = "${var.name}-prefix-list"
   address_family = "IPv4"
   max_entries    = 6
 

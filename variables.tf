@@ -1,3 +1,11 @@
+variable "name" {
+  type  = string
+}
+
+variable "env" {
+  type  = string
+}
+
 variable "web-ami" {
   type    = string
 }
