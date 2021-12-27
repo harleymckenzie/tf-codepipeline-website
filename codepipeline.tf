@@ -40,7 +40,7 @@ resource "aws_codepipeline" "codepipeline" {
 
             configuration = {
                 ApplicationName = aws_codedeploy_app.webapp.name
-                DeploymentGroupName = "web-asg"
+                DeploymentGroupName = "${var.name}-${var.env}-web-asg"
             }
         }
     }
