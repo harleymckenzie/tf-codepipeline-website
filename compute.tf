@@ -18,6 +18,10 @@ resource "aws_launch_template" "web" {
 
     tag_specifications {
         resource_type = "instance"
+
+        tags = {
+            Name = "${var.name}-${var.env}-web"
+        }
     }
     user_data = base64encode(data.template_file.userdata.rendered)
 }
