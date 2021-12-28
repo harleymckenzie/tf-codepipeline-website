@@ -47,9 +47,9 @@ module "apache-web-app" {
   
   vpc_id = module.vpc-base.vpc_id
   subnet_ids = [
-    module.vpc-base.subnet_private-a,
-    module.vpc-base.subnet_private-b,
-    module.vpc-base.subnet_private-c
+    module.vpc-base.subnet_public-a,
+    module.vpc-base.subnet_public-b,
+    module.vpc-base.subnet_public-c
   ]
   permitted_ssh_ips = var.permitted_ssh_ips
   
