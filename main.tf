@@ -1,3 +1,6 @@
+########################################################
+# Terraform Configuration
+########################################################
 terraform {
   required_providers {
     aws = {
@@ -9,13 +12,17 @@ terraform {
   required_version = "~> 1.1.0"
 }
 
+########################################################
+# AWS Provider
+########################################################
+
 provider "aws" {
   profile = "default"
   region  = "eu-west-1"
 
   default_tags {
     tags = {
-      Stack = "hmckenzie-web"
+      Stack = "${var.name}-${var.env}"
     }
   }
 }
@@ -27,4 +34,14 @@ data "template_file" "userdata" {
   vars = {
     region = "${data.aws_region.current.name}"
   }
+}
+
+########################################################
+# Modules
+########################################################
+
+module "vpc-base" {
+  source = "./modules/vpc-base"
+
+  name = "${var.name}-${var.env}"
 }

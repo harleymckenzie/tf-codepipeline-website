@@ -1,3 +1,11 @@
+variable "name" {
+  type  = string
+}
+
+variable "env" {
+  type  = string
+}
+
 variable "web-ami" {
   type    = string
 }
@@ -8,7 +16,12 @@ variable "web-instance-type" {
 }
 
 variable "keypair" {
-    type = string
+  type = string
+}
+
+variable "apex-domain" {
+  type  = string
+  default = ""
 }
 
 variable "hostname" {

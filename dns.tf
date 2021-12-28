@@ -1,5 +1,5 @@
 data "aws_route53_zone" "web" {
-  name = var.hostname
+  name = var.apex-domain == "" ? var.hostname : var.apex-domain
   private_zone = false
 }
 

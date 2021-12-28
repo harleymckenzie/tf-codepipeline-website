@@ -1,7 +1,7 @@
 # IAM Roles
 
 resource "aws_iam_role" "codepipeline" {
-    name = "codepipeline-role"
+    name = "${var.name}-${var.env}-codepipeline-role"
     path = "/"
 
     assume_role_policy = jsonencode({
@@ -20,7 +20,7 @@ resource "aws_iam_role" "codepipeline" {
 }
 
 resource "aws_iam_role" "codedeploy" {
-    name = "codedeploy-role"
+    name = "${var.name}-${var.env}-codedeploy-role"
     path = "/"
 
     assume_role_policy = jsonencode({
@@ -40,7 +40,7 @@ resource "aws_iam_role" "codedeploy" {
 }
 
 resource "aws_iam_role" "web" {
-    name = "webapp-role"
+    name = "${var.name}-${var.env}-webapp-role"
     path = "/"
 
     assume_role_policy = jsonencode({
@@ -61,7 +61,7 @@ resource "aws_iam_role" "web" {
 # IAM Policies
 
 resource "aws_iam_role_policy" "codepipeline" {
-  name = "codepipeline-policy"
+  name = "${var.name}-${var.env}-codepipeline-policy"
   role = aws_iam_role.codepipeline.id
 
   policy = <<EOF
@@ -242,7 +242,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codedeploy" {
-  name = "codedeploy-policy"
+  name = "${var.name}-${var.env}-codedeploy-policy"
   role = aws_iam_role.codedeploy.id
 
   policy = <<EOF
@@ -280,7 +280,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "web-bucket" {
-  name = "webbucket-policy"
+  name = "${var.name}-${var.env}-webbucket-policy"
   role = aws_iam_role.web.id
 
   policy = <<EOF
@@ -303,7 +303,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "deploy-bucket" {
-  name = "webdeploybucket-policy"
+  name = "${var.name}-${var.env}-webdeploybucket-policy"
   role = aws_iam_role.web.id
 
   policy = <<EOF
@@ -327,6 +327,6 @@ EOF
 
 # IAM Instance Profile
 resource "aws_iam_instance_profile" "web" {
-  name = "web-profile"
+  name = "${var.name}-${var.env}-web-profile"
   role = aws_iam_role.web.name
 }

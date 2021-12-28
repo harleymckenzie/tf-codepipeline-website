@@ -1,5 +1,5 @@
 resource "aws_launch_template" "web" {
-    name = "web-launch-template"
+    name = "${var.name}-${var.env}-web-launch-template"
     image_id = var.web-ami
     instance_type = var.web-instance-type
     key_name = var.keypair
@@ -20,21 +20,21 @@ resource "aws_launch_template" "web" {
         resource_type = "instance"
 
         tags = {
-            Name = "hmckenzie-web"
+            Name = "${var.name}-${var.env}-web"
         }
     }
     user_data = base64encode(data.template_file.userdata.rendered)
 }
 
 resource "aws_autoscaling_group" "asg" {
-    name = "web-asg"
+    name = "${var.name}-${var.env}-web-asg"
     min_size = 1
     max_size = 1
     target_group_arns = [ aws_lb_target_group.target-group.id ]
     vpc_zone_identifier = [
-        aws_subnet.public-a.id,
-        aws_subnet.public-b.id,
-        aws_subnet.public-c.id
+        module.vpc-base.subnet_public-a,
+        module.vpc-base.subnet_public-b,
+        module.vpc-base.subnet_public-c
     ]
 
     launch_template { 
