@@ -11,5 +11,5 @@ output "lb_zone_id" {
 }
 
 output "iam_role_web" {
-    value = ""
+    value = aws_iam_role.web.id
 }
