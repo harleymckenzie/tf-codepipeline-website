@@ -2,10 +2,6 @@ output "vpc_id" {
     value = aws_vpc.vpc.id
 }
 
-output "prefix-list_id" {
-    value = aws_ec2_managed_prefix_list.prefix-list.id
-}
-
 output "subnet_public-a" {
     value = aws_subnet.public-a.id
 }

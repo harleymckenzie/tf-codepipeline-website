@@ -57,5 +57,5 @@ resource "aws_codedeploy_deployment_group" "web" {
     app_name = aws_codedeploy_app.webapp.name
     deployment_group_name = "${var.name}-${var.env}-web-asg"
     service_role_arn = aws_iam_role.codedeploy.arn
-    autoscaling_groups = [aws_autoscaling_group.asg.name]
+    autoscaling_groups = [module.apache-web-app.autoscaling_group_name]
 }

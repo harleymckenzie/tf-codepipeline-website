@@ -1,15 +1,15 @@
+
 resource "aws_security_group" "ssh-access" {
-  name        = "${var.name}-${var.env}-ssh-access"
+  name        = "${var.name}-ssh-access"
   description = "Allow SSH from trusted IPs"
-  vpc_id      = module.vpc-base.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress {
     description      = "Allow SSH Access from trusted IPs"
     from_port        = 22
     to_port          = 22
     protocol         = "tcp"
-    prefix_list_ids  = [module.vpc-base.prefix-list_id]
-    cidr_blocks      = null
+    cidr_blocks      = var.permitted_ssh_ips
     ipv6_cidr_blocks = null
   }
 
@@ -27,9 +27,9 @@ resource "aws_security_group" "ssh-access" {
 }
 
 resource "aws_security_group" "elb-web-access" {
-  name        = "${var.name}-${var.env}-elb-web-access"
+  name        = "${var.name}-elb-web-access"
   description = "Allow HTTP/HTTPS from everywhere"
-  vpc_id      = module.vpc-base.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress {
     description      = "Allow HTTP from everywhere"
@@ -63,9 +63,9 @@ resource "aws_security_group" "elb-web-access" {
 }
 
 resource "aws_security_group" "ec2-elb-access" {
-  name        = "${var.name}-${var.env}-ec2-elb-access"
+  name        = "${var.name}-ec2-elb-access"
   description = "Allow HTTP from elb-web-access Security Group"
-  vpc_id      = module.vpc-base.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress {
     description      = "Allow HTTP from elb-web-access Security Group"
@@ -96,6 +96,6 @@ resource "aws_security_group" "ec2-elb-access" {
   }
 
   tags = {
-    "Name" = "${var.name}-${var.env}-ec2-allow-alb-web"
+    "Name" = "${var.name}-ec2-allow-alb-web"
   }
 }

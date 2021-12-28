@@ -1,7 +1,11 @@
+########################################################
+# Launch Template
+########################################################
+
 resource "aws_launch_template" "web" {
-    name = "${var.name}-${var.env}-web-launch-template"
-    image_id = var.web-ami
-    instance_type = var.web-instance-type
+    name = "${var.name}-web-launch-template"
+    image_id = var.ami_id
+    instance_type = var.instance_type
     key_name = var.keypair
 
     iam_instance_profile {
@@ -20,22 +24,22 @@ resource "aws_launch_template" "web" {
         resource_type = "instance"
 
         tags = {
-            Name = "${var.name}-${var.env}-web"
+            Name = "${var.name}-web"
         }
     }
     user_data = base64encode(data.template_file.userdata.rendered)
 }
 
+########################################################
+# Auto Scaling Group
+########################################################
+
 resource "aws_autoscaling_group" "asg" {
-    name = "${var.name}-${var.env}-web-asg"
-    min_size = 1
-    max_size = 1
+    name = "${var.name}-web-asg"
+    min_size = var.asg_min
+    max_size = var.asg_max
     target_group_arns = [ aws_lb_target_group.target-group.id ]
-    vpc_zone_identifier = [
-        module.vpc-base.subnet_public-a,
-        module.vpc-base.subnet_public-b,
-        module.vpc-base.subnet_public-c
-    ]
+    vpc_zone_identifier = var.subnet_ids
 
     launch_template { 
         id = aws_launch_template.web.id
