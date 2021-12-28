@@ -106,28 +106,3 @@ resource "aws_route_table_association" "public-c" {
   subnet_id      = aws_subnet.public-c.id
   route_table_id = aws_route_table.public-rt.id
 }
-
-########################################################
-# Prefix List
-########################################################
-
-resource "aws_ec2_managed_prefix_list" "prefix-list" {
-  name           = "${var.name}-prefix-list"
-  address_family = "IPv4"
-  max_entries    = 6
-
-  entry {
-    cidr        = "62.6.190.205/32"
-    description = "WeWork - Akoova"
-  }
-
-  entry {
-    cidr        = "54.72.96.181/32"
-    description = "VPN - Akoova"
-  }
-
-  entry {
-    cidr        = "188.222.64.218/32"
-    description = "Home - UK"
-  }
-}

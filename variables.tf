@@ -39,3 +39,7 @@ variable "web-bucket" {
 variable "codestar-connection-arn" {
   type = string
 }
+
+variable "permitted_ssh_ips" {
+  type = list(string)
+}

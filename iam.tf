@@ -39,25 +39,6 @@ resource "aws_iam_role" "codedeploy" {
     managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"]
 }
 
-resource "aws_iam_role" "web" {
-    name = "${var.name}-${var.env}-webapp-role"
-    path = "/"
-
-    assume_role_policy = jsonencode({
-        Version = "2012-10-17"
-        Statement = [
-            {
-                Action = "sts:AssumeRole"
-                Effect = "Allow"
-                Sid    = ""
-                Principal = {
-                    Service = "ec2.amazonaws.com"
-                }
-            },
-        ]
-    })
-}
-
 # IAM Policies
 
 resource "aws_iam_role_policy" "codepipeline" {
@@ -279,32 +260,9 @@ resource "aws_iam_role_policy" "codedeploy" {
 EOF
 }
 
-resource "aws_iam_role_policy" "web-bucket" {
-  name = "${var.name}-${var.env}-webbucket-policy"
-  role = aws_iam_role.web.id
-
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": [
-                "s3:Get*",
-                "s3:List*"
-            ],
-            "Resource": [
-                "arn:aws:s3:::${var.web-bucket}/*"
-            ],
-            "Effect": "Allow"
-        }
-    ]
-}
-EOF
-}
-
 resource "aws_iam_role_policy" "deploy-bucket" {
   name = "${var.name}-${var.env}-webdeploybucket-policy"
-  role = aws_iam_role.web.id
+  role = module.apache-web-app.iam_role_web
 
   policy = <<EOF
 {
@@ -325,8 +283,25 @@ resource "aws_iam_role_policy" "deploy-bucket" {
 EOF
 }
 
-# IAM Instance Profile
-resource "aws_iam_instance_profile" "web" {
-  name = "${var.name}-${var.env}-web-profile"
-  role = aws_iam_role.web.name
+resource "aws_iam_role_policy" "web-bucket" {
+  name = "${var.name}-webbucket-policy"
+  role = module.apache-web-app.iam_role_web
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${var.web-bucket}/*"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}
+EOF
 }

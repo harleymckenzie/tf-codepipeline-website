@@ -9,8 +9,8 @@ resource "aws_route53_record" "hostname" {
   type = "A"
 
   alias {
-    name                   = aws_lb.alb.dns_name
-    zone_id                = aws_lb.alb.zone_id
+    name                   = module.apache-web-app.lb_dns_name
+    zone_id                = module.apache-web-app.lb_zone_id
     evaluate_target_health = true
   }
 }

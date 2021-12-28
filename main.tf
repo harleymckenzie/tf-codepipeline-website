@@ -29,13 +29,6 @@ provider "aws" {
 
 data "aws_region" "current" {}
 
-data "template_file" "userdata" {
-  template = "${file("${path.module}/userdata.tpl")}"
-  vars = {
-    region = "${data.aws_region.current.name}"
-  }
-}
-
 ########################################################
 # Modules
 ########################################################
@@ -44,4 +37,25 @@ module "vpc-base" {
   source = "./modules/vpc-base"
 
   name = "${var.name}-${var.env}"
+}
+
+module "apache-web-app" {
+  source = "./modules/apache-web-app"
+
+  name = "${var.name}-${var.env}"
+  region = "${data.aws_region.current.name}"
+  
+  vpc_id = module.vpc-base.vpc_id
+  subnet_ids = [
+    module.vpc-base.subnet_public-a,
+    module.vpc-base.subnet_public-b,
+    module.vpc-base.subnet_public-c
+  ]
+  permitted_ssh_ips = var.permitted_ssh_ips
+  
+  instance_type = var.web-instance-type
+  ami_id = var.web-ami
+  keypair = var.keypair
+
+  ssl_certificate_arn = aws_acm_certificate.web.arn
 }
