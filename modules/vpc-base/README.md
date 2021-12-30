@@ -53,14 +53,11 @@ module "vpc-base" {
 
 | Name | Description |
 |------|-------------|
-| <a name="output_subnet_private-a"></a> [subnet\_private-a](#output\_subnet\_private-a) | n/a |
-| <a name="output_subnet_private-b"></a> [subnet\_private-b](#output\_subnet\_private-b) | n/a |
-| <a name="output_subnet_private-c"></a> [subnet\_private-c](#output\_subnet\_private-c) | n/a |
-| <a name="output_subnet_public-a"></a> [subnet\_public-a](#output\_subnet\_public-a) | n/a |
-| <a name="output_subnet_public-b"></a> [subnet\_public-b](#output\_subnet\_public-b) | n/a |
-| <a name="output_subnet_public-c"></a> [subnet\_public-c](#output\_subnet\_public-c) | n/a |
-| <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | n/a |
-
-## Authors
-Module is maintained by Harley McKenzie
+| <a name="output_subnet_private-a"></a> [subnet\_private-a](#output\_subnet\_private-a) | Subnet id of Private Subnet A |
+| <a name="output_subnet_private-b"></a> [subnet\_private-b](#output\_subnet\_private-b) | Subnet id of Private Subnet B |
+| <a name="output_subnet_private-c"></a> [subnet\_private-c](#output\_subnet\_private-c) | Subnet id of Private Subnet C |
+| <a name="output_subnet_public-a"></a> [subnet\_public-a](#output\_subnet\_public-a) | Subnet id of Public Subnet A |
+| <a name="output_subnet_public-b"></a> [subnet\_public-b](#output\_subnet\_public-b) | Subnet id of Public Subnet B |
+| <a name="output_subnet_public-c"></a> [subnet\_public-c](#output\_subnet\_public-c) | Subnet id of Public Subnet C |
+| <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | VPC id |
 <!-- END_TF_DOCS -->
