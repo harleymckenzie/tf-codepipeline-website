@@ -78,11 +78,8 @@ module "apache-web-app" {
 
 | Name | Description |
 |------|-------------|
-| <a name="output_autoscaling_group_name"></a> [autoscaling\_group\_name](#output\_autoscaling\_group\_name) | n/a |
-| <a name="output_iam_role_web"></a> [iam\_role\_web](#output\_iam\_role\_web) | n/a |
-| <a name="output_lb_dns_name"></a> [lb\_dns\_name](#output\_lb\_dns\_name) | n/a |
-| <a name="output_lb_zone_id"></a> [lb\_zone\_id](#output\_lb\_zone\_id) | n/a |
-
-## Authors
-Module is maintained by Harley McKenzie
+| <a name="output_autoscaling_group_name"></a> [autoscaling\_group\_name](#output\_autoscaling\_group\_name) | Name of the Auto Scaling Group |
+| <a name="output_iam_role_web"></a> [iam\_role\_web](#output\_iam\_role\_web) | Resouce id of the IAM Web Role |
+| <a name="output_lb_dns_name"></a> [lb\_dns\_name](#output\_lb\_dns\_name) | DNS name of the Application Load Balancer |
+| <a name="output_lb_zone_id"></a> [lb\_zone\_id](#output\_lb\_zone\_id) | Zone ID for the Application Load Balancer |
 <!-- END_TF_DOCS -->
