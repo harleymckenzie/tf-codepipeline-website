@@ -59,3 +59,13 @@ module "apache-web-app" {
 
   ssl_certificate_arn = aws_acm_certificate.web.arn
 }
+
+module "route53-dns" {
+  source = "./modules/route53-dns"
+
+  zone_hostname = var.apex-domain == "" ? var.hostname : var.apex-domain
+  
+  record_name = var.hostname
+  alb_dns_name = module.apache-web-app.lb_dns_name
+  alb_zone_id = module.apache-web-app.lb_zone_id
+}

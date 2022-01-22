@@ -1,20 +1,3 @@
-data "aws_route53_zone" "web" {
-  name = var.apex-domain == "" ? var.hostname : var.apex-domain
-  private_zone = false
-}
-
-resource "aws_route53_record" "hostname" {
-  zone_id = data.aws_route53_zone.web.id
-  name = var.hostname
-  type = "A"
-
-  alias {
-    name                   = module.apache-web-app.lb_dns_name
-    zone_id                = module.apache-web-app.lb_zone_id
-    evaluate_target_health = true
-  }
-}
-
 resource "aws_route53_record" "ssl-validation" {
     for_each = {
       for dvo in aws_acm_certificate.web.domain_validation_options : dvo.domain_name => {
@@ -29,7 +12,7 @@ resource "aws_route53_record" "ssl-validation" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = data.aws_route53_zone.web.zone_id
+  zone_id         = module.route53-dns.zone_id
 }
 
 resource "aws_acm_certificate_validation" "web" {
