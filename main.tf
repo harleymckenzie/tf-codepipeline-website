@@ -57,7 +57,7 @@ module "apache-web-app" {
   ami_id = var.web-ami
   keypair = var.keypair
 
-  ssl_certificate_arn = aws_acm_certificate.web.arn
+  ssl_certificate_arn = module.acm-certificate.certificate_arn
 }
 
 module "route53-dns" {
@@ -68,4 +68,11 @@ module "route53-dns" {
   record_name = var.hostname
   alb_dns_name = module.apache-web-app.lb_dns_name
   alb_zone_id = module.apache-web-app.lb_zone_id
+}
+
+module "acm-certificate" {
+  source = "./modules/acm-certificate"
+
+  domain = var.apex-domain
+  zone_id = module.route53-dns.zone_id
 }
