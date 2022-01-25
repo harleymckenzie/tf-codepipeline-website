@@ -73,6 +73,6 @@ module "route53-dns" {
 module "acm-certificate" {
   source = "./modules/acm-certificate"
 
-  domain = var.apex-domain
+  domain = var.apex-domain == "" ? var.hostname : var.apex-domain
   zone_id = module.route53-dns.zone_id
 }
