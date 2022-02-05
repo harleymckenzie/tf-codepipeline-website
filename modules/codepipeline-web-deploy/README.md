@@ -4,6 +4,7 @@
 
 Module to configure a Code Pipeline to deploy static web content stored in a specified GitHub repo.
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -49,3 +50,4 @@ No modules.
 ## Outputs
 
 No outputs.
+<!-- END_TF_DOCS -->

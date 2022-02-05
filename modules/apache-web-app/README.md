@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 # Apache ASG Terraform module
 Terraform module to provision an ASG preconfigured with:
 * Apache
@@ -6,6 +5,7 @@ Terraform module to provision an ASG preconfigured with:
 
 While I've added the ability to specify the min and max count of the ASG, I haven't yet had a need to increase this to a size bigger than 1, so I haven't included a Scaling Policy.
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
