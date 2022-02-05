@@ -3,6 +3,7 @@ In it's current state, this module is very limited in functionality.
 
 The purpose is to create an Alias record to point to an Application Load Balancer.
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -40,4 +41,4 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_zone_id"></a> [zone\_id](#output\_zone\_id) | The Route 53 Zone ID |
+| <a name="output_zone_id"></a> [zone\_id](#output\_zone\_id) | The Route 53 Zone ID |<!-- END_TF_DOCS -->

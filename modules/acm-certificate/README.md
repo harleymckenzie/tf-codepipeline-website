@@ -1,6 +1,7 @@
 # Amazon Certificate Manager Certificate Module
 Simple module to generate and validate an SSL certificate in the Amazon Certificate Manager.
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -38,3 +39,4 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_certificate_arn"></a> [certificate\_arn](#output\_certificate\_arn) | ARN of the generated ACM certificate |
+<!-- END_TF_DOCS -->

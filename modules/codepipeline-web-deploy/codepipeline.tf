@@ -1,10 +1,10 @@
 resource "aws_codepipeline" "codepipeline" {
-    name = "${var.name}-${var.env}-web-pipeline"
+    name = "${var.name}-web-pipeline"
     role_arn = aws_iam_role.codepipeline.arn
 
     depends_on = [aws_codedeploy_deployment_group.web]
     artifact_store {
-        location = var.codepipeline-bucket
+        location = var.codepipeline_bucket
         type = "S3"
     }
 
@@ -20,7 +20,7 @@ resource "aws_codepipeline" "codepipeline" {
             output_artifacts = ["source_output"]
 
             configuration = {
-                ConnectionArn = var.codestar-connection-arn
+                ConnectionArn = var.codestar_connection_arn
                 FullRepositoryId = "Milkeh/hmckenzie-web"
                 BranchName = "main"
             }
@@ -40,7 +40,7 @@ resource "aws_codepipeline" "codepipeline" {
 
             configuration = {
                 ApplicationName = aws_codedeploy_app.webapp.name
-                DeploymentGroupName = "${var.name}-${var.env}-web-asg"
+                DeploymentGroupName = "${var.name}-web-asg"
             }
         }
     }
@@ -49,13 +49,13 @@ resource "aws_codepipeline" "codepipeline" {
 }
 
 resource "aws_codedeploy_app" "webapp" {
-    name = "${var.name}-${var.env}-WebApp"
+    name = "${var.name}-WebApp"
     compute_platform = "Server"
 }
 
 resource "aws_codedeploy_deployment_group" "web" {
     app_name = aws_codedeploy_app.webapp.name
-    deployment_group_name = "${var.name}-${var.env}-web-asg"
+    deployment_group_name = "${var.name}-web-asg"
     service_role_arn = aws_iam_role.codedeploy.arn
-    autoscaling_groups = [module.apache-web-app.autoscaling_group_name]
+    autoscaling_groups = var.asg_list
 }

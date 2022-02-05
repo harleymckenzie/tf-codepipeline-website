@@ -1,7 +1,9 @@
+########################################################
 # IAM Roles
+########################################################
 
 resource "aws_iam_role" "codepipeline" {
-    name = "${var.name}-${var.env}-codepipeline-role"
+    name = "${var.name}-codepipeline-role"
     path = "/"
 
     assume_role_policy = jsonencode({
@@ -20,7 +22,7 @@ resource "aws_iam_role" "codepipeline" {
 }
 
 resource "aws_iam_role" "codedeploy" {
-    name = "${var.name}-${var.env}-codedeploy-role"
+    name = "${var.name}-codedeploy-role"
     path = "/"
 
     assume_role_policy = jsonencode({
@@ -39,10 +41,12 @@ resource "aws_iam_role" "codedeploy" {
     managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"]
 }
 
+########################################################
 # IAM Policies
+########################################################
 
 resource "aws_iam_role_policy" "codepipeline" {
-  name = "${var.name}-${var.env}-codepipeline-policy"
+  name = "${var.name}-codepipeline-policy"
   role = aws_iam_role.codepipeline.id
 
   policy = <<EOF
@@ -94,7 +98,7 @@ resource "aws_iam_role_policy" "codepipeline" {
             "Action": [
                 "codestar-connections:UseConnection"
             ],
-            "Resource": "${var.codestar-connection-arn}",
+            "Resource": "${var.codestar_connection_arn}",
             "Effect": "Allow"
         },
         {
@@ -223,7 +227,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codedeploy" {
-  name = "${var.name}-${var.env}-codedeploy-policy"
+  name = "${var.name}-codedeploy-policy"
   role = aws_iam_role.codedeploy.id
 
   policy = <<EOF
@@ -261,8 +265,8 @@ EOF
 }
 
 resource "aws_iam_role_policy" "deploy-bucket" {
-  name = "${var.name}-${var.env}-webdeploybucket-policy"
-  role = module.apache-web-app.iam_role_web
+  name = "${var.name}-webdeploybucket-policy"
+  role = var.iam_role_web
 
   policy = <<EOF
 {
@@ -274,7 +278,7 @@ resource "aws_iam_role_policy" "deploy-bucket" {
                 "s3:List*"
             ],
             "Resource": [
-                "arn:aws:s3:::${var.codepipeline-bucket}/*"
+                "arn:aws:s3:::${var.codepipeline_bucket}/*"
             ],
             "Effect": "Allow"
         }
@@ -285,7 +289,7 @@ EOF
 
 resource "aws_iam_role_policy" "web-bucket" {
   name = "${var.name}-webbucket-policy"
-  role = module.apache-web-app.iam_role_web
+  role = var.iam_role_web
 
   policy = <<EOF
 {
@@ -297,7 +301,7 @@ resource "aws_iam_role_policy" "web-bucket" {
                 "s3:List*"
             ],
             "Resource": [
-                "arn:aws:s3:::${var.web-bucket}/*"
+                "arn:aws:s3:::${var.web_bucket}/*"
             ],
             "Effect": "Allow"
         }

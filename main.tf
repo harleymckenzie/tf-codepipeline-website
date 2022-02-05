@@ -76,3 +76,16 @@ module "acm-certificate" {
   domain = var.apex-domain == "" ? var.hostname : var.apex-domain
   zone_id = module.route53-dns.zone_id
 }
+
+module "codepipeline-web-deploy" {
+  source = "./modules/codepipeline-web-deploy"
+
+  name = "${var.name}-${var.env}"
+  codestar_connection_arn = var.codestar-connection-arn
+  asg_list = [module.apache-web-app.autoscaling_group_name]
+
+  iam_role_web = module.apache-web-app.iam_role_web
+
+  web_bucket = var.web-bucket
+  codepipeline_bucket = var.codepipeline-bucket
+}
