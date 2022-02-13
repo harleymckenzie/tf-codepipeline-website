@@ -21,8 +21,8 @@ resource "aws_codepipeline" "codepipeline" {
 
             configuration = {
                 ConnectionArn = var.codestar_connection_arn
-                FullRepositoryId = "Milkeh/hmckenzie-web"
-                BranchName = "main"
+                FullRepositoryId = var.repository_id
+                BranchName = var.branch
             }
         }
     }

@@ -8,6 +8,17 @@ variable "codestar_connection_arn" {
     description = "ARN of the codestar connection used to connect to GitHub"
 }
 
+variable "repository_id" {
+    type = string
+    description = "Full id of the Git repository. ie. Harley/my-web-repo"
+}
+
+variable "branch" {
+    type = string
+    description = "Branch to use from the repository"
+    default = "main"
+}
+
 variable "asg_list" {
     type = list(string)
     description = "List of Auto Scaling Groups to associate with Code Deploy"

@@ -54,3 +54,14 @@ variable "permitted_ssh_ips" {
   type = list(string)
   description = "List of IPs to permit SSH access to on the web instances"
 }
+
+variable "repository_id" {
+    type = string
+    description = "Full id of the Git repository containing the web content to be deployed. ie. Harley/my-web-repo"
+}
+
+variable "branch" {
+    type = string
+    description = "Branch to use from the repository containing the web content"
+    default = "main"
+}
