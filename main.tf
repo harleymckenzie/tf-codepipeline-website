@@ -82,6 +82,8 @@ module "codepipeline-web-deploy" {
 
   name = "${var.name}-${var.env}"
   codestar_connection_arn = var.codestar-connection-arn
+  repository_id = var.repository_id
+  branch = var.branch
   asg_list = [module.apache-web-app.autoscaling_group_name]
 
   iam_role_web = module.apache-web-app.iam_role_web
